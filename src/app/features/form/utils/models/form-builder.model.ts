@@ -20,9 +20,15 @@ export interface Question {
   other?: boolean;
 }
 
+export interface ParagraphAnswer {
+  value: string;
+}
+
+export interface CheckboxListAnswer {
+  list: Record<string, boolean>;
+  other?: string;
+}
+
 export type FormAnswers = Array<
-  string | {
-    list: Record<string, boolean>;
-    other?: string;
-  }
+  ParagraphAnswer | CheckboxListAnswer
 >;

@@ -23,7 +23,7 @@
           >
             <fb-form-question-control
               *ngFor="let question of questions; index as i"
-              [form]="form"
+              [form]="formArrayControls(i)"
               [controlName]="i"
               [question]="question"
             ></fb-form-question-control>

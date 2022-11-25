@@ -8,7 +8,9 @@ import { FormBuilderDialogComponent } from '@form/ui/form-builder-dialog/form-bu
 import { Question } from '@form/utils/models/form-builder.model';
 import { Router } from '@angular/router';
 
-export type ParagraphQuestionControl = FormControl<string>;
+export type ParagraphQuestionControl = FormGroup<{
+  value: FormControl<string>
+}>;
 
 export type CheckboxListQuestionControl = FormGroup<{
   list: FormGroup<Record<string, FormControl<boolean>>>;
@@ -59,12 +61,14 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
   buildFormQuestion(question: Question): QuestionControl {
     switch (question.type) {
       case 'paragraph':
-        return new FormControl('', {
-          nonNullable: true,
-          validators: [
-            question.required ? Validators.required : null,
-            Validators.maxLength(200)
-          ].filter(_ => _) as ValidatorFn[]
+        return new FormGroup({
+          value: new FormControl('', {
+            nonNullable: true,
+            validators: [
+              question.required ? Validators.required : null,
+              Validators.maxLength(200)
+            ].filter(_ => _) as ValidatorFn[]
+          })
         });
       case 'checkbox-list':
         const control: CheckboxListQuestionControl = new FormGroup({
@@ -101,20 +105,23 @@ export class FormBuilderComponent implements OnInit, OnDestroy {
     }
   }
 
+  formArrayControls(index: number) {
+    return (this.form.get('questions') as FormArray).get(''+index) as QuestionControl;
+  }
+
   addQuestion(): void {
     this.dialogRef = this.dialog.open(FormBuilderDialogComponent);
     this.dialogRef.componentInstance.submitQuestion.subscribe(question => {
       this.questions.push(question);
-      (this.form.get('questions') as FormArray).controls.push(this.buildFormQuestion(question));
+      (this.form.get('questions') as FormArray).push(this.buildFormQuestion(question));
       this.formService.addQuestion(question);
     });
   }
 
   onSubmit(): void {
-    console.log(this.form.value)
     if (this.form.valid) {
-      // this.formService.saveAnswers(this.form.getRawValue().questions);
-      // this.router.navigate(['/', 'form', 'answers']);
+      this.formService.saveAnswers(this.form.getRawValue().questions);
+      this.router.navigate(['/', 'form', 'answers']);
     } else {
       this.form.markAllAsTouched();
     }

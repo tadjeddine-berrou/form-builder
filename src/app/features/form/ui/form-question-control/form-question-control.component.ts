@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { CheckboxListQuestionControl, ParagraphQuestionControl, QuestionControl, QuestionListForm } from '@form/feature/form-builder/form-builder.component';
+import { CheckboxListQuestionControl, ParagraphQuestionControl, QuestionControl } from '@form/feature/form-builder/form-builder.component';
 import { Question } from '@form/utils/models/form-builder.model';
 
 @Component({
@@ -10,17 +9,17 @@ import { Question } from '@form/utils/models/form-builder.model';
 })
 export class FormQuestionControlComponent {
 
-  @Input() form!: FormGroup<QuestionListForm>;
+  @Input() form!: QuestionControl;
   @Input() controlName!: number;
   @Input() question: Question | undefined;
 
   constructor() {}
 
   get paragraphControl(): ParagraphQuestionControl {
-    return (this.form.get('questions') as FormArray)!.controls[this.controlName] as ParagraphQuestionControl;
+    return this.form as ParagraphQuestionControl;
   }
 
   get checklistControl(): CheckboxListQuestionControl {
-    return (this.form.get('questions') as FormArray)!.controls[this.controlName] as CheckboxListQuestionControl;
+    return this.form as CheckboxListQuestionControl;
   }
 }

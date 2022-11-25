@@ -1,5 +1,6 @@
+import { CheckboxListAnswer, ParagraphAnswer } from './../../utils/models/form-builder.model';
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormService } from '@form/data-access/services/form.service';
 import { FormAnswers, Question } from '@form/utils/models/form-builder.model';
 
@@ -15,4 +16,11 @@ export class FormAnswersComponent {
 
   constructor(private formService: FormService) { }
 
+  paragraphAnswer(index: number): string | null {
+    return (this.answers?.[index] as ParagraphAnswer).value;
+  }
+
+  checklistAnswer(index: number): CheckboxListAnswer | null {
+    return (this.answers?.[index] as CheckboxListAnswer);
+  }
 }

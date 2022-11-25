@@ -4,7 +4,6 @@
     <div
       *ngIf="question"
       class="form-question-control__body"
-      formArrayName="questions"
     >
 
       <p>
@@ -16,7 +15,7 @@
           <mat-form-field>
             <textarea
               matInput
-              [formControlName]="controlName"
+              formControlName="value"
               placeholder="Type answer here"
               maxlength="200"
             ></textarea>
@@ -30,47 +29,47 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="'checkbox-list'">
-          <ng-container [formGroupName]="controlName">
-            <div
-              class="option-list"
-              formGroupName="list"
+
+          <div
+            class="option-list"
+            formGroupName="list"
+          >
+            <mat-checkbox
+              *ngFor="let option of question.answers"
+              [formControlName]="option"
+              color="primary"
             >
-              <mat-checkbox
-                *ngFor="let option of question.answers"
-                [formControlName]="option"
-                color="primary"
-              >
-                {{ option }}
-              </mat-checkbox>
-              <mat-checkbox
-                *ngIf="question.other"
+              {{ option }}
+            </mat-checkbox>
+            <mat-checkbox
+              *ngIf="question.other"
+              formControlName="other"
+              color="primary"
+            >
+              Other
+            </mat-checkbox>
+          </div>
+          <div
+            *ngIf="question.other && checklistControl.get('list.other')!.value"
+            class="other-options"
+          >
+            <mat-form-field>
+              <mat-label>Other answer</mat-label>
+              <textarea
+                matInput
                 formControlName="other"
-                color="primary"
-              >
-                Other
-              </mat-checkbox>
-            </div>
-            <div
-              *ngIf="question.other && checklistControl.get('list.other')!.value"
-              class="other-options"
-            >
-              <mat-form-field>
-                <mat-label>Other answer</mat-label>
-                <textarea
-                  matInput
-                  formControlName="other"
-                  placeholder="Type answer here"
-                  maxlength="200"
-                ></textarea>
-                <mat-error *ngIf="checklistControl.get('list.other')!.hasError('maxlength') && !checklistControl.get('list.other')!.hasError('required')">
-                  Max answer option length is 200 characters
-                </mat-error>
-                <mat-error *ngIf="checklistControl.get('list.other')!.hasError('required')">
-                  Answer is <strong>required</strong>
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </ng-container>
+                placeholder="Type answer here"
+                maxlength="200"
+              ></textarea>
+              <mat-error *ngIf="checklistControl.get('list.other')!.hasError('maxlength') && !checklistControl.get('list.other')!.hasError('required')">
+                Max answer option length is 200 characters
+              </mat-error>
+              <mat-error *ngIf="checklistControl.get('list.other')!.hasError('required')">
+                Answer is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
         </ng-container>
 
       </ng-container>

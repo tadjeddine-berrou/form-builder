@@ -16,19 +16,32 @@
         class="answer"
       >
         <h2>{{ question.question }}</h2>
-        <div class="answer-body">
-          <ng-container *ngSwitch="question.type">
+
+        <div class="answer__body">
+
+          <ng-container [ngSwitch]="question.type">
 
             <p *ngSwitchCase="'paragraph'">
-              {{ answers[0] }}
+
+              {{ paragraphAnswer(i) ? paragraphAnswer(i) : 'No answer' }}
             </p>
 
-            <p *ngSwitchCase="'check-list'">
-              check list
-            </p>
+            <ng-container *ngSwitchCase="'checkbox-list'">
+              <ul>
+                <ng-container *ngFor="let answer of question.answers">
+                  <li *ngIf="checklistAnswer(i)?.list?.[answer]">
+                    {{ answer }}
+                  </li>
+                </ng-container>
+                <li *ngIf="question.other && checklistAnswer(i)?.other">
+                  Other - {{ checklistAnswer(i)?.other }}
+                </li>
+              </ul>
+            </ng-container>
 
           </ng-container>
         </div>
+        <mat-divider></mat-divider>
       </div>
 
     </main>
