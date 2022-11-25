@@ -1,0 +1,15 @@
+.form-question-control {
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .option-list {
+    display: flex;
+    flex-direction: column;
+
+    mat-checkbox:not(:last-child) {
+      margin-bottom: 4px;
+    }
+  }
+}

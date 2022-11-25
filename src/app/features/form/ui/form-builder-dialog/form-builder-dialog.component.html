@@ -1,0 +1,110 @@
+<div class="form-builder-dialog">
+  <h1 mat-dialog-title>
+    Add a New Question
+  </h1>
+  <div mat-dialog-content>
+    <form [formGroup]="form">
+      <!-- type -->
+      <mat-form-field appearance="fill">
+        <mat-label>Question type</mat-label>
+        <mat-select
+          formControlName="type"
+          name="question-type"
+        >
+          <mat-option
+            *ngFor="let questionType of questionTypeOptions"
+            [value]="questionType.value"
+          >
+            {{ questionType.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- question -->
+      <mat-form-field>
+        <mat-label>Your Question</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="question"
+          placeholder="Type question here"
+          maxlength="200"
+        >
+        <mat-error *ngIf="form.get('question')!.hasError('maxlength') && !form.get('question')!.hasError('required')">
+          Max question length is 200 characters
+        </mat-error>
+        <mat-error *ngIf="form.get('question')!.hasError('required')">
+          Question is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <!-- checkbox answers -->
+      <ng-container
+        *ngIf="form.get('type')!.value === 'checkbox-list'"
+      >
+        <ng-container formArrayName="answers">
+          <h3>Please enter possible answers below:</h3>
+          <!-- checkbox answer -->
+          <mat-form-field *ngFor="let control of checkboxListAnswersControls; index as i">
+            <mat-label>Answer {{ i + 1 }}</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControlName]="i"
+              placeholder="Add Answer Option"
+              maxlength="100"
+            >
+            <mat-error *ngIf="control.hasError('maxlength') && !control.hasError('required')">
+              Max answer option length is 100 characters
+            </mat-error>
+            <mat-error *ngIf="control!.hasError('required')">
+              Answer {{ i + 1 }} is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <!-- add answer option button -->
+          <button
+            mat-button
+            type="button"
+            color="primary"
+            class="add-answer-button"
+            [disabled]="(checkboxListAnswersControls?.length ?? 0) >= maxCheckboxListAnswerOptions"
+            (click)="addAnswerOption()"
+          >
+            <div class="add-answer-button__content">
+              <mat-icon>add</mat-icon>
+              Add another answer
+            </div>
+          </button>
+        </ng-container>
+        <!-- other answer -->
+        <mat-checkbox
+          formControlName="other"
+          color="primary"
+        >
+          Allow user to specify their own answer
+        </mat-checkbox>
+      </ng-container>
+      <!-- question required -->
+      <mat-checkbox
+        formControlName="required"
+        color="primary"
+      >
+        This field is required
+      </mat-checkbox>
+    </form>
+  </div>
+  <mat-dialog-actions align="end">
+    <button
+      mat-button
+      type="button"
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      cdkFocusInitial
+      (click)="onSubmit()"
+    >Submit</button>
+  </mat-dialog-actions>
+</div>

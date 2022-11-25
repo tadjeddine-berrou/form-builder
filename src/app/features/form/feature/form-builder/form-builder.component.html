@@ -1,0 +1,70 @@
+<div class="form-builder">
+
+  <header class="form-builder__header">
+    <h1>Build your custom questions, answer them, and then review your answers</h1>
+  </header>
+
+  <main class="form-builder__main">
+    <h2>List of questions</h2>
+
+    <div class="form-builder__main__questions">
+
+      <!-- question list -->
+      <ng-container *ngIf="questions.length > 0; else EmptyState">
+
+        <form
+          [formGroup]="form"
+          (ngSubmit)="onSubmit()"
+        >
+
+          <div
+            class="form-body"
+            formArrayName="questions"
+          >
+            <fb-form-question-control
+              *ngFor="let question of questions; index as i"
+              [form]="form"
+              [controlName]="i"
+              [question]="question"
+            ></fb-form-question-control>
+          </div>
+
+          <div class="form-action">
+            <button
+              mat-raised-button
+              type="submit"
+              color="primary"
+            >
+              Review my answers
+            </button>
+          </div>
+
+        </form>
+
+      </ng-container>
+
+      <!-- empty questions -->
+      <ng-template #EmptyState>
+        <p>
+          No question has been created, click on 'Add Question' to create your custom questions
+        </p>
+      </ng-template>
+
+    </div>
+
+  </main>
+
+  <mat-divider></mat-divider>
+
+  <footer class="form-builder__footer">
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      (click)="addQuestion()"
+    >
+      Add Question
+    </button>
+  </footer>
+
+</div>

@@ -21,7 +21,14 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "plugins": [
+      {"name": "@angular/language-service"}
+    ],
+    "paths": {
+      "@shared/*": ["src/app/shared/*"],
+      "@form/*": ["src/app/features/form/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,0 +1,25 @@
+.form-builder {
+
+  &__header {
+
+  }
+
+  &__main {
+    margin-bottom: 26px;
+
+    &__questions {
+
+      .form-body {
+        margin-bottom: 18px;
+      }
+    }
+  }
+
+  &__footer {
+
+  }
+
+  mat-divider {
+    margin: 26px 0;
+  }
+}

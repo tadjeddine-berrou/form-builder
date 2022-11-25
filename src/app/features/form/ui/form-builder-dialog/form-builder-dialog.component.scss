@@ -1,0 +1,40 @@
+.form-builder-dialog {
+  width: 400px;
+
+  h1 {
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .add-answer-button {
+    padding: 0 8px;
+
+    &__content {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      mat-icon {
+        $size: 22px;
+        font-size: $size;
+        width: $size;
+        height: $size;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  mat-checkbox {
+    display: block;
+    margin: 12px 0;
+  }
+}

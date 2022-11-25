@@ -1,0 +1,50 @@
+<div
+  *ngIf="questions$ | async as questions"
+  class="form-answers"
+>
+
+  <ng-container *ngIf="answers">
+
+    <header class="form-answers__header">
+      <h1>Here are your answers !</h1>
+    </header>
+
+    <main class="form-answers__main">
+
+      <div
+        *ngFor="let question of questions; index as i"
+        class="answer"
+      >
+        <h2>{{ question.question }}</h2>
+        <div class="answer-body">
+          <ng-container *ngSwitch="question.type">
+
+            <p *ngSwitchCase="'paragraph'">
+              {{ answers[0] }}
+            </p>
+
+            <p *ngSwitchCase="'check-list'">
+              check list
+            </p>
+
+          </ng-container>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="form-answers__footer">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        [routerLink]="['/', 'form', 'builder']"
+      >
+        Back to Forms Builder
+      </button>
+    </footer>
+
+  </ng-container>
+
+
+</div>

@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "public": true,
+  "name": "form-builder",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api" }
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "dist/form-builder/browser/**"
+    }
+  }
+}
